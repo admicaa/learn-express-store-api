@@ -8,6 +8,7 @@ const start = async () => {
         type: "json",
       },
     });
+    product.deleteMany({});
     console.log({ jsonProducts: jsonProducts.default });
     await connector.mongo();
     var result = await product.insertMany(jsonProducts.default);
