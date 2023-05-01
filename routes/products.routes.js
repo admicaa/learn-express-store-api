@@ -1,14 +1,12 @@
 import { Router } from "express";
-
-// import all controllers
-// import SessionController from './app/controllers/SessionController';
+import productsController from "../app/controllers/productsController.js";
 
 const routes = new Router();
 
 // Add routes
-// routes.get('/', SessionController.store);
-// routes.post('/', SessionController.store);
-// routes.put('/', SessionController.store);
-// routes.delete('/', SessionController.store);
+routes.get("/", productsController.index);
+// routes.post('/', productsController.store);
+// routes.put('/', productsController.store);
+// routes.delete('/', productsController.store);
 
 export default routes;

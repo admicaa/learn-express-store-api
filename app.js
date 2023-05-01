@@ -3,9 +3,11 @@ import connector from "./database/connector.js";
 import RouteServiceProvider from "./providers/RouteServiceProvider.js";
 import notFound from "./app/middleware/not-found.js";
 import errorHandlerMiddleware from "./app/middleware/error-handler.js";
-
+import dotenv from "dotenv";
+import expressASyncErrors from "express-async-errors";
 class App {
   constructor() {
+    dotenv.config();
     this.server = express();
     this.middlewares();
     this.routes();
