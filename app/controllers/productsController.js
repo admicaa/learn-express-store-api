@@ -8,20 +8,19 @@ class ProductsController {
 
   async index(req, res) {
     var modelQuery = _.pick(req.query, ["featured", "company"]);
+    var sortMap = new Map();
+    if (req.query.sort) {
+      var sorts = req.query.sort.split(",");
+      sorts.forEach((s) => {
+        if (s.replace("-", "") === "name") {
+          sortMap.set("name", Number(s.replace("name", "1")));
+        }
+        if (s.replace("-", "") === "createdAt") {
+          sortMap.set("createdAt", Number(s.replace("createdAt", "1")));
+        }
+      });
+    }
     if (req.query.name) {
-      //   modelQuery.$or = [
-      //     {
-      //       $text: {
-      //         $search: req.query.name,
-      //       },
-      //     },
-      //     {
-      //       name: {
-      //         $regex: req.query.name,
-      //         $options: "i",
-      //       },
-      //     },
-      //   ];
       modelQuery.name = {
         $regex: req.query.name,
         $options: "i",
@@ -40,15 +39,16 @@ class ProductsController {
     }
     if (req.query.rating) {
       modelQuery.rating = {
-        $lt: Number(req.query.rating) + 1,
+        $lt: Number(req.query.rating) - 1,
         $gte: Number(req.query.rating),
       };
     }
     var page = req.query.page || 1;
     var total = await ProductModel.find(modelQuery).countDocuments();
-    var items_per_page = 10;
+    var items_per_page = 23;
     var products = new SimplePaginator(ProductModel);
     var products = await ProductModel.find(modelQuery)
+      .sort(sortMap)
       .skip((page - 1) * items_per_page)
       .limit(items_per_page);
 
