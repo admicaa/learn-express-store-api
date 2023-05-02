@@ -18,6 +18,9 @@ class ProductsController {
         if (s.replace("-", "") === "createdAt") {
           sortMap.set("createdAt", Number(s.replace("createdAt", "1")));
         }
+        if (s.replace("-", "") === "price") {
+          sortMap.set("price", Number(s.replace("price", "1")));
+        }
       });
     }
     if (req.query.name) {
